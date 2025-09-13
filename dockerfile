@@ -2,24 +2,31 @@ FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Cài đặt gói cần thiết
+# Cập nhật và cài đặt gói cần thiết
 RUN apt-get update && apt-get install -y \
     wget gnupg2 ca-certificates \
     xvfb x11vnc \
     novnc websockify \
     supervisor \
-    chromium \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y curl \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
 
-# Thêm script chạy chrome
-COPY start-chrome.sh /usr/local/bin/start-chrome.sh
-RUN chmod +x /usr/local/bin/start-chrome.sh
-
 # Copy file supervisor config
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY package.json ./
 
+# Cài đặt nodejs
+RUN npm install
+RUN ./node_modules/playwright-core/cli.js install --with-deps chromium
+
+# Expose cổng cho noVNC và remote debugging
 EXPOSE 8080
+EXPOSE 9223
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-n"]
