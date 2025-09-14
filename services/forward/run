@@ -1,2 +1,2 @@
 #!/bin/sh
-exec socat TCP-LISTEN:9224,fork,reuseaddr TCP:127.0.0.1:9223
+exec socat TCP-LISTEN:${DEBUG_PORT},fork,reuseaddr TCP:127.0.0.1:9223

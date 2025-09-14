@@ -2,6 +2,8 @@ FROM debian:bookworm
 
 ARG S6_OVERLAY_VERSION=v3.2.1.0
 ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBUG_PORT=9223
+ENV CHROME_FLAGS=""
 
 # Cập nhật và cài đặt gói cần thiết
 RUN apt-get update && apt-get install -y \
@@ -37,7 +39,6 @@ RUN ./node_modules/playwright-core/cli.js install --with-deps chromium
 
 # Expose cổng cho noVNC và remote debugging
 EXPOSE 8080
-EXPOSE 9223
-EXPOSE 9224
+EXPOSE ${DEBUG_PORT}:${DEBUG_PORT}
 
 ENTRYPOINT ["/init"]
