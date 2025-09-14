@@ -12,7 +12,9 @@ RUN apt-get update && apt-get install -y \
 
 # Cài đặt s6-overlay
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
-RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / && rm /tmp/s6-overlay-amd64.tar.gz
+RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz /tmp
+RUN tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz
 
 # Cài nodejs 
 RUN apt-get update && apt-get install -y curl \
@@ -24,7 +26,9 @@ WORKDIR /root
 
 # Copy file config
 COPY services/ /etc/services.d/
-RUN chmod -R +x /etc/services.d/
+RUN chmod -R +x /etc/services.d/ \
+    && apt-get update && apt-get install -y dos2unix \
+    && find /etc/services.d/ -type f -name 'run' -exec dos2unix {} \;
 COPY package.json ./
 
 # Cài đặt chromium với Playwright
