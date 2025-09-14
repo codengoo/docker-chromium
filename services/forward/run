@@ -1,2 +1,4 @@
-#!/bin/sh
+#!/command/with-contenv sh
+set -x   # bật debug log
+DEBUG_PORT="${DEBUG_PORT:-9224}"
 exec socat TCP-LISTEN:${DEBUG_PORT},fork,reuseaddr TCP:127.0.0.1:9223

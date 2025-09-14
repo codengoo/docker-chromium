@@ -7,10 +7,7 @@ services:
     build: .
     ports:
       - "8080:8080"        # noVNC
-      - "9223:9223"
-      - "9224:9224"
-      # - "${DEBUG_PORT:-9223}:${DEBUG_PORT:-9223}"  # remote debugging
+      - "${DEBUG_PORT:-9224}:${DEBUG_PORT:-9224}"  # remote debugging
     environment:
-      - ENABLE_DEBUG=${ENABLE_DEBUG:-true}
-      - DEBUG_PORT=${DEBUG_PORT:-9223}
+      - DEBUG_PORT=${DEBUG_PORT:-9224}
       - CHROME_FLAGS=${CHROME_FLAGS:-}

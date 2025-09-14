@@ -2,7 +2,7 @@ FROM debian:bookworm
 
 ARG S6_OVERLAY_VERSION=v3.2.1.0
 ENV DEBIAN_FRONTEND=noninteractive
-ENV DEBUG_PORT=9223
+ENV DEBUG_PORT=9224
 ENV CHROME_FLAGS=""
 
 # Cập nhật và cài đặt gói cần thiết
