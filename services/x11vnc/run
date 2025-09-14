@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/x11vnc -display :0 -nopw -forever -shared

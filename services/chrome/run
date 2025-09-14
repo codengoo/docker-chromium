@@ -1,0 +1,9 @@
+#!/bin/sh
+export DISPLAY=:0
+exec /root/.cache/ms-playwright/chromium-1187/chrome-linux/chrome \
+  --no-sandbox \
+  --disable-dev-shm-usage \
+  --start-maximized \
+  --remote-debugging-port=9223 \
+  --remote-debugging-address=0.0.0.0 \
+  --remote-allow-origins=*
